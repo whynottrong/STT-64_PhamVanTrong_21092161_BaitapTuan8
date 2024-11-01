@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery-3.7.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <style>
+        [class*="col-"]{
+            padding: 0px;
+            margin: 0px;
+        }
+        li{
+            width: 150px;
+        }
+        .maudo{
+            color: red;
+            font-size: 100%;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            var i=2;
+            $("#btnDK").click(function(){
+                $("#mymodal").modal();
+            })
+
+            function kiemtraMa(){
+            
+                var maukt = /^[0-9]{9}$/; // Biểu thức chính quy kiểm tra mã có 9 chữ số
+                var ma = $("#txtMa").val(); // Lấy giá trị của input
+
+                if(ma == "") { // Kiểm tra nếu trống
+                    $("#tbMa").html("Bắt buộc nhập*");
+                    $("#tbMa").addClass("maudo");
+                }
+                else if(!maukt.test(ma)) { // Nếu không khớp với regex
+                    $("#tbMa").html("Nhập sai*");
+                    $("#tbMa").addClass("maudo");
+                }
+                else {
+                    $("#tbMa").html(""); // Xóa thông báo lỗi nếu đúng
+                    $("#tbMa").removeClass("maudo");
+                }
+            }
+
+            $("#txtMa").blur(kiemtraMa);
+
+            function kiemtraTen(){
+                var maukt2 = /^([A-Z]{1}[a-z]+)(\s[A-Z]{1}[a-z]*)+$/;
+                var ma2=$("#txtTen").val();
+
+                if(ma2 ==""){
+                    $("#tbTen").html("Bắt buộc nhập*");
+                    $("#tbTen").addClass("maudo");
+                }
+                else if(!maukt2.test(ma2)){
+                    $("#tbTen").html("Nhập sai*");
+                    $("#tbTen").addClass("maudo");
+                }
+                else{
+                    $("#tbTen").html(""); // Xóa thông báo lỗi nếu đúng
+                    $("#tbTen").removeClass("maudo");
+                }
+                
+            }
+            $("#txtTen").blur(kiemtraTen);
+
+            function kiemtraEmail(){
+                var maukt = /^([a-z0-9]*)(@iuh.edu.vn)/
+                var ma = $("#txtEmail").val();
+
+                if(ma ==""){
+                    $("#tbEmail").html("Bắt buộc nhập");
+                    $("#tbEmail").addClass("maudo");
+                }
+                else if(!maukt.test(ma)){
+                    $("#tbEmail").html("Nhập sai");
+                    $("#tbEmail").addClass("maudo");
+                }
+                else{
+                    $("#tbEmail").html("");
+                    $("#tbEmail").addClass("maudo");
+                }
+            }
+            $("#txtEmail").blur(kiemtraEmail);
+
+
+            $("#dichvu").change(function(){
+                var giatri = $(this).val();
+                $("#giatien").val(giatri);
+                tongtien();
+            })
+            
+            
+            
+            $(".chkDodung").change(function() {
+            
+                var total = 0;
+                // Duyệt qua tất cả các checkbox được chọn
+                $(".chkDodung:checked").each(function() {
+                    total += parseFloat($(this).val()); // Lấy giá trị của mỗi checkbox được chọn
+                });
+                // Cập nhật tiền đồ dùng
+                $("#tiendodung").val(total);
+                tongtien();
+            });
+            function tongtien(){
+                var tong= parseFloat($("#giatien").val()) + parseFloat($("#tiendodung").val());
+                $("#Tongtien").val(tong);
+            }
+            tongtien();
+            
+
+            $("#thanhtoan").click(function(){
+                var ma= $("#txtMa").val();
+                var ten= $("#txtTen").val();
+                var dc= $("#txtEmail").val();
+                var tdv= $("#giatien").val();
+                var tdd= $("#tiendodung").val();
+                var tongtien= $("#Tongtien").val();
+
+                var them="<tr><td>" +(i++) + "</td><td>"+ ma+ "</td><td>" +ten+"</td><td>"+dc+
+                    "</td><td>"+tdv+"</td><td>"+tdd+"</td><td>"+tongtien+"</td></tr>";
+                $("#danhsach").append(them);
+                $("#mymodal").modal("hide");
+                return true;
+            
+                })
+
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <img src="../img/z5896005251828_e39d375c85b15e28ed3efb960792ad66.jpg" alt="" width="100%">
+        </div>
+        <div class="row">
+            <nav class="nav navbar-nav">
+                <ul class="nav navbar navbar-nav navbar-expand">
+                    <li class="nav-item"><a href="#" class="nav-link">Trang chủ</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" id="btnDK">Đăng ký</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Hỗ trợ</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row">
+            <table class="col table-bordered table-hover table-primary" id="danhsach">
+                <tr class="">
+                    <th scope="col">STT</th>
+                    <th scope="col">Mã học viên</th>
+                    <th scope="col">Họ tên</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Tiền dịch vụ</th>
+                    <th scope="col">Tiền đồ dùng</th>
+                    <th scope="col">Tổng tiền</th>
+                </tr>
+                <tr>
+                    <tr >
+                        <td scope="col">1</td>
+                        <td scope="col">21092161</td>
+                        <td scope="col">Văn Trông</td>
+                        <td scope="col">phamvantrong401@gmail.com</td>
+                        <td scope="col">30000</td>
+                        <td scope="col">10000</td>
+                        <td scope="col">40000</td>
+                    </tr>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-4 col-sm-4">Mã sinh viên: 21092161</div>
+            <div class="col-4 col-sm-4">Họ tên: Phạm Văn Trông</div>
+            <div class="col-4 col-sm-4">Phòng thi:________________</div>
+        </div>
+        <div class="row">
+            <div id="mymodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="my-modal-title">Thông tin thanh toán</h5>
+                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="">
+                                <div class="container border">
+                                    <form class="form-control p-2">
+                                        <div class="form-group row">
+                                            <div class="col-3 sol-sm-3">
+                                                <label for="">Mã học viên:</label>
+                                            </div>
+                                            <div class="col-sm-6 col-6">
+                                                <input type="text"  class="form-control" name="inputName" id="txtMa" placeholder="123456789">
+                                            </div>
+                                            <div class="col-3 col-sm-3">
+                                                <span id="tbMa">*</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-3 sol-sm-3">
+                                                <label for="">Họ tên:</label>
+                                            </div>
+                                            <div class="col-sm-6 col-6">
+                                                <input  type="text" class="form-control" name="inputName" id="txtTen" placeholder="Tran Thu Trang">
+                                            </div>
+                                            <div class="col-3 col-sm-3">
+                                                <span id="tbTen">*</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-3 sol-sm-3">
+                                                <label for="">Email:</label>
+                                            </div>
+                                            <div class="col-sm-6 col-6">
+                                                <input type="email" class="form-control" name="inputName" id="txtEmail" placeholder="phamvantrong@iuh.edu.vn">
+                                            </div>
+                                            <div class="col-3 col-sm-3">
+                                                <span id="tbEmail">*</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-3 sol-sm-3">
+                                                <label for="">Dịch vụ</label>
+                                            </div>
+                                            <div class="col-6 col-sm-6">
+                                                <select name="" id="dichvu" class="form-control">
+                                                    <option value="500000">Bơi</option>
+                                                    <option value="1000000">Trượt ván </option>
+                                                    <option value="2000000">Moto nước</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-3 sol-sm-3">
+                                                <label for="">Giá tiền</label>
+                                            </div>
+                                            <div class="col-sm-6 col-6">
+                                                <input type="text" class="form-control bg-light" disabled name="inputName" id="giatien" placeholder="123456789">
+                                            </div>
+                                            <div class="col-3 col-sm-3">
+                                                <span>*</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-3 col-sm-3">
+                                                <label for="">Đồ dùng</label>
+                                            </div>
+                                            <div class="col-6 col-sm 6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input chkDodung" type="checkbox" name="" value="50000">
+                                                    <label for="my-input" class="form-check-label ">Áo quần bơi</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input chkDodung" type="checkbox" name="" value="70000">
+                                                    <label for="my-input" class="form-check-label ">Phao</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input chkDodung" type="checkbox" name="" value="30000">
+                                                    <label for="my-input" class="form-check-label ">Kính bơi</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-3 sol-sm-3">
+                                                <label for="">Tiền đồ dùng</label>
+                                            </div>
+                                            <div class="col-sm-6 col-6">
+                                                <input disabled type="text" class="form-control bg-light" name="inputName" id="tiendodung" placeholder="0">
+                                            </div>
+                                            <div class="col-3 col-sm-3">
+                                                <span>*</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-3 sol-sm-3">
+                                                <label for="">Tổng tiền</label>
+                                            </div>
+                                            <div class="col-sm-6 col-6">
+                                                <input disabled type="text" class="form-control bg-light"  name="inputName" id="Tongtien" placeholder="">
+                                            </div>
+                                            <div class="col-3 col-sm-3">
+                                                <span>*</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <button class="bg-success col col-sm p2" id="thanhtoan" type="button">Thanh toán</button>
+                                            <button class="bg-danger col col-sm p2" type="reset">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <h1>Trang thanh toán</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
